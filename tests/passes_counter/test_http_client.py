@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-import src.passes_per_minute.passes_counter.http_client as http_client
+import passes_per_minute.passes_counter.http_client as http_client
 
 """
 ========================================================================================================================
