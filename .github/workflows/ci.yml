@@ -1,0 +1,92 @@
+name: CI
+
+# Triggers: on any push (all branches), ignore tags, also on PRs
+on:
+  push:
+    branches: ["**"]
+    tags-ignore: ["*"]
+  pull_request:
+
+# Concurrency: one run per branch/PR, cancel old if new starts
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least-privilege permissions for this workflow
+permissions:
+  contents: read
+
+# Global environment
+env:
+  PYTHON_VERSION: "3.12"
+
+# Job: linting, type checks, and tests
+jobs:
+  checks:
+    name: Lint, types & tests
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+
+    steps:
+      # Get repository code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install chosen Python version + enable pip cache
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            poetry.lock
+
+      # Install Poetry itself (via pip)
+      - name: Install Poetry
+        run: python -m pip install --upgrade pip poetry
+
+      # Keep virtualenv inside repo for easier caching
+      - name: Enable in-project venv for Poetry
+        run: poetry config virtualenvs.in-project true
+
+      # Cache the .venv folder based on lockfile + Python version
+      - name: Cache Poetry venv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-
+
+      # Install all dependencies (main + dev) from pyproject.toml
+      - name: Install deps (poetry)
+        run: poetry install --no-interaction --with dev
+
+      # Run linter (Ruff) with GitHub-friendly output
+      - name: Ruff (lint)
+        run: poetry run ruff check --output-format=github .
+
+      # Run formatter (Black) in check-only mode, with diff if fails
+      - name: Black (format check)
+        run: poetry run black --check --diff .
+
+      # Cache mypy cache folder to speed up type checking
+      - name: Cache mypy
+        uses: actions/cache@v4
+        with:
+          path: .mypy_cache
+          key: mypy-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            mypy-${{ runner.os }}-${{ env.PYTHON_VERSION }}-
+
+      # Run static type checker (Mypy) with auto-install types
+      - name: Mypy (type check)
+        run: poetry run mypy --install-types --non-interactive --pretty .
+
+      # Run unit tests with pytest and generate coverage report
+      - name: Pytest (unit tests + coverage)
+        run: poetry run pytest --cov=. --cov-report=term-missing --cov-report=xml
