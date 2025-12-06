@@ -31,7 +31,7 @@ class TestFetchCompetitions:
             return sample
 
         # monkeypatch replaces the real get_json with our fake_get_json
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_manager.get_json", fake_get_json)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_manager.get_json", fake_get_json)
 
         # call the function, which normally uses get_json,
         # but in the test it will use the patched fake_get_json
@@ -53,7 +53,7 @@ class TestFetchCompetitions:
             raise RuntimeError("network down")
 
         # patch get_json, so it becomes raise_error() instead of the real one
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_manager.get_json", raise_error)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_manager.get_json", raise_error)
 
         # check that fetch_competitions does not swallow the exception,
         # but propagates it further (pytest.raises expects that)
@@ -126,7 +126,7 @@ class TestGetCompetitionSeasons:
 
         # Replace fetch_competitions with fake_fetch
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_manager.fetch_competitions",
+            "passes_per_minute.passes_counter.competition_manager.fetch_competitions",
             fake_fetch,
         )
 
@@ -152,7 +152,7 @@ class TestGetCompetitionSeasons:
 
         # Replace fetch_competitions with fake_fetch
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_manager.fetch_competitions",
+            "passes_per_minute.passes_counter.competition_manager.fetch_competitions",
             fake_fetch,
         )
 
@@ -176,7 +176,7 @@ class TestGetCompetitionSeasons:
 
         # Replace fetch_competitions with fake_fetch
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_manager.fetch_competitions",
+            "passes_per_minute.passes_counter.competition_manager.fetch_competitions",
             fake_fetch,
         )
 
@@ -193,7 +193,7 @@ class TestGetCompetitionSeasons:
             raise ConnectionError("raise_error")
 
         # Replace fetch_competitions with raise_error
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_manager.fetch_competitions", raise_error)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_manager.fetch_competitions", raise_error)
 
         # Expect ConnectionError to be raised.
         with pytest.raises(ConnectionError):

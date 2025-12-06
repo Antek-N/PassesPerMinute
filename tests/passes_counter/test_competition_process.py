@@ -56,7 +56,7 @@ class TestFetchMatches:
             called["url"] = url
             return sample
 
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_processor.get_json", fake_get_json)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_processor.get_json", fake_get_json)
 
         # The call should return exactly sample and use the expected URL
         out = _fetch_matches(9, 2020)
@@ -68,7 +68,7 @@ class TestFetchMatches:
         def boom(_url: str) -> None:
             raise RuntimeError("network down")
 
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_processor.get_json", boom)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_processor.get_json", boom)
 
         with pytest.raises(RuntimeError):
             _fetch_matches(9, 2020)
@@ -113,7 +113,7 @@ class TestSubmitAllTasks:
             return {"GK": {"passes": 0, "minutes": 0}}
 
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
+            "passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
             fake_process_match,
         )
 
@@ -161,7 +161,7 @@ class TestHandleErrorOrRetry:
     # If attempts < MAX_MATCH_RETRIES, an error should trigger task resubmission (retry).
     def test_resubmits_when_under_retry_limit(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Set low retry limit for testing
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_processor.MAX_MATCH_RETRIES", 3)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_processor.MAX_MATCH_RETRIES", 3)
 
         class FakeFuture:
             pass
@@ -190,7 +190,7 @@ class TestHandleErrorOrRetry:
 
     # When attempts exceed the limit, the function should raise RuntimeError mentioning match_id.
     def test_raises_after_exceeding_retry_limit(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_processor.MAX_MATCH_RETRIES", 1)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_processor.MAX_MATCH_RETRIES", 1)
 
         class FakeExecutor:
             def submit(self, fn: object, match_id: int) -> object:
@@ -231,7 +231,7 @@ class TestDrainResultsLoop:
             raise AssertionError("unexpected id")
 
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
+            "passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
             fake_process_match,
         )
 
@@ -256,13 +256,13 @@ class TestDrainResultsLoop:
 
     # When all retries for a task are exhausted, the loop should stop and raise RuntimeError.
     def test_raises_when_retries_exhausted(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.competition_processor.MAX_MATCH_RETRIES", 1)
+        monkeypatch.setattr("passes_per_minute.passes_counter.competition_processor.MAX_MATCH_RETRIES", 1)
 
         def always_fails(_match_id: int) -> None:
             raise ValueError("nope")
 
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
+            "passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
             always_fails,
         )
 
@@ -287,7 +287,7 @@ class TestGetMatchCounter:
             return 123
 
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.get_match_counter",
+            "passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.get_match_counter",
             fake_get,
         )
         assert get_match_counter() == 123
@@ -319,11 +319,11 @@ class TestProcessCompetition:
             raise AssertionError("unexpected id")
 
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor._fetch_matches",
+            "passes_per_minute.passes_counter.competition_processor._fetch_matches",
             fake_fetch_matches,
         )
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
+            "passes_per_minute.passes_counter.competition_processor.MATCH_PROCESSOR.process_match",
             fake_process_match,
         )
 
@@ -337,12 +337,12 @@ class TestProcessCompetition:
     def test_no_matches(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Fake fetch – no matches
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor._fetch_matches",
+            "passes_per_minute.passes_counter.competition_processor._fetch_matches",
             lambda _c, _s: [],
         )
         # Fake submit – no futures created
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.competition_processor._submit_all_tasks",
+            "passes_per_minute.passes_counter.competition_processor._submit_all_tasks",
             lambda executor, ids: {},
         )
         out = process_competition(1, 1)

@@ -305,7 +305,7 @@ class TestProcessMatch:
             assert "events" in url
             return events
 
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.match_processor.get_json", fake_get_json)
+        monkeypatch.setattr("passes_per_minute.passes_counter.match_processor.get_json", fake_get_json)
 
         # Process the match
         out = mp.process_match(match_id=12345)
@@ -336,7 +336,7 @@ class TestProcessMatch:
 
         # Stub `get_json`
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.match_processor.get_json",
+            "passes_per_minute.passes_counter.match_processor.get_json",
             lambda _url: events,
         )
 
