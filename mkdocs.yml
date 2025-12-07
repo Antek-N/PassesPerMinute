@@ -1,0 +1,109 @@
+# Project information
+site_name: SpeechScan               # The title of the documentation site
+site_description: Docs for PassesPerMinute  # Short description of the site (used in metadata)
+repo_url: https://github.com/Antek-N/PassesPerMinute/  # Link to the GitHub repository
+repo_name: Antek-N/PassesPerMinute       # Name of the repository displayed in the UI
+
+# Theme configuration
+theme:
+  name: material                    # Use the "Material for MkDocs" theme
+  language: en                      # Interface language
+  font:
+    text: Inter                     # Font used for body text
+    code: JetBrains Mono            # Font used for code blocks
+  features:                         # Enable additional theme features
+    - navigation.tabs               # Show navigation tabs at the top
+    - navigation.tabs.sticky        # Keep tabs visible while scrolling
+    - navigation.top                # Back-to-top button
+    - navigation.sections           # Group navigation items into sections
+    - navigation.indexes            # Allow section index pages
+    - toc.integrate                 # Integrate table of contents into the navigation
+    - toc.follow                    # Highlight current section in the table of contents
+    - content.code.copy             # Add a "copy" button to code blocks
+    - search.suggest                # Enable search suggestions
+    - search.highlight              # Highlight search matches in content
+  palette:                          # Define color palettes and UI themes
+    - media: "(prefers-color-scheme: light)"  # Default light mode
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night # Icon for switching to dark mode
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"   # Default dark mode
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny # Icon for switching back to light mode
+        name: Light mode
+    - scheme: brand                 # Custom "brand" color scheme
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/palette
+        name: Brand look
+    - scheme: compact               # Compact layout variant
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/format-line-spacing
+        name: Compact spacing
+    - scheme: comfy                 # Comfortable spacing variant
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/format-size
+        name: Comfortable size
+
+# Plugins extend MkDocs functionality
+plugins:
+  - search                                        # Built-in search engine
+  - autorefs                                      # Automatic cross-references between documents
+  - gen-files:                                    # Generate files dynamically
+      scripts:
+        - docs/gen_ref_pages/gen_ref_pages.py     # Script for generating reference pages
+  - literate-nav                                  # Define navigation structure from Markdown files
+  - mkdocstrings:                                 # Auto-generate API documentation from docstrings
+      handlers:
+        python:                                   # Handler for Python code
+          paths: [src]                            # Source code directory
+          options:                                # Rendering options
+            docstring_style: sphinx
+            docstring_section_style: table
+            separate_signature: true
+            show_signature_annotations: true
+            line_length: 88
+            group_by_category: true
+            show_category_heading: true
+            merge_init_into_class: true
+            members_order: source
+            inherited_members: true
+            show_if_no_docstring: true
+            show_root_heading: true
+            show_root_toc_entry: true
+            show_source: false      # Do not show source code links
+
+
+# Markdown extensions
+markdown_extensions:
+  - admonition                      # Support for callout/admonition blocks
+  - footnotes                       # Support for footnotes
+  - attr_list                       # Allow attributes inside Markdown elements
+  - pymdownx.details                # Collapsible details blocks
+  - pymdownx.superfences            # Enhanced fenced code blocks
+  - pymdownx.tabbed:                # Tabbed content
+      alternate_style: true
+  - pymdownx.highlight              # Syntax highlighting for code blocks
+  - toc:                            # Table of contents
+      permalink: true               # Add anchor links to TOC headings
+
+# Extra custom CSS
+extra_css:
+  - css/mkdocstrings.css            # Custom styles for mkdocstrings
+  - css/theme-variants.css          # Custom styles for theme variants
+
+# Navigation (menu structure)
+nav:
+  - Home: index.md
+  - Reference: reference/

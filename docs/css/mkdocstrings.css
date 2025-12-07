@@ -1,0 +1,23 @@
+/*
+  Documentation layout styles for MkDocs Material.
+  Defines spacing, typography, and table formatting
+  to improve readability and consistency across docs.
+*/
+
+/* Add vertical spacing between documentation objects */
+.md-typeset .doc .doc-object { margin: 1.1rem 0; }
+
+/* Allow function/method signatures to wrap across lines */
+.md-typeset .doc .sig { white-space: normal; word-break: break-word; }
+
+/* Adjust table cell padding and align text to the top */
+.md-typeset .doc .table th,
+.md-typeset .doc .table td {
+  padding: .5rem .75rem;
+  vertical-align: top;
+}
+
+/* Apply alternating background color to table rows for readability */
+.md-typeset .doc .table tr:nth-child(odd) td {
+  background: var(--md-code-bg-color);
+}
