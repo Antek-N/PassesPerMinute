@@ -1,0 +1,57 @@
+# Ignore PyCharm project files
+.idea/
+*.iml
+
+# Ignore virtual environment directories
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+.venv.bak/
+venv.bak/
+
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore temporary and log files
+*.log
+*.tmp
+*.swp
+*.swo
+cache
+
+# Ignore system files (macOS / Windows / Linux)
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# Ignore test-related files
+.coverage
+.tox/
+.nox/
+.cache/
+pytest_cache/
+
+# Ignore pip logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore editor-specific configuration files
+.vscode/
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# mypy
+.mypy_cache/

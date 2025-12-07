@@ -1,0 +1,146 @@
+/*
+  Documentation theme styles for MkDocs Material.
+  Defines heading sizes, documentation object layout,
+  code signature blocks, and table formatting.
+  Includes multiple color/spacing schemes (brand, compact, comfy)
+  for different presentation preferences.
+*/
+
+/* Style level-1 headings */
+.md-typeset h1 {
+  font-size: 1.4rem;
+  color: var(--md-default-fg-color--light);
+  font-weight: 800;
+  letter-spacing: .01em;
+  margin-top: 1.2rem;
+  margin-bottom: .6rem;
+}
+
+/* Style level-2 headings */
+.md-typeset h2 {
+  font-size: 1rem;
+  color: var(--md-default-fg-color--light);
+  font-weight: 700;
+  letter-spacing: .02em;
+  margin-top: .8rem;
+  margin-bottom: .4rem;
+}
+
+/* Style level-3 headings */
+.md-typeset h3 {
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light);
+  font-weight: 600;
+  letter-spacing: .01em;
+  margin-top: .6rem;
+  margin-bottom: .3rem;
+}
+
+/* Card-like container for documentation objects */
+.md-typeset .doc .doc-object {
+  margin: 1rem 0 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: .75rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 1px 0 var(--md-default-fg-color--lighter);
+}
+
+/* Heading inside a documentation object */
+.md-typeset .doc .doc-object > .doc-heading {
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+/* Code signature block inside documentation */
+.md-typeset .doc .sig {
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--md-code-bg-color);
+  padding: .5rem .75rem;
+  border-radius: .5rem;
+  line-height: 1.45;
+}
+
+/* Section titles inside documentation */
+.md-typeset .doc .doc-section-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: .78rem;
+  letter-spacing: .04em;
+  color: var(--md-default-fg-color--light);
+  margin-top: .9rem;
+  border-top: 1px solid var(--md-default-fg-color--lighter);
+  padding-top: .5rem;
+}
+
+/* Table base styles */
+.md-typeset .doc .table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.md-typeset .doc .table thead th {
+  font-weight: 700;
+  border-bottom: 1px solid var(--md-default-fg-color--lighter);
+}
+.md-typeset .doc .table th,
+.md-typeset .doc .table td {
+  padding: .45rem .6rem;
+  vertical-align: top;
+}
+/* Alternating row background */
+.md-typeset .doc .table tr:nth-child(odd) td {
+  background: var(--md-code-bg-color);
+}
+
+/* ============================= */
+/* BRAND color scheme            */
+/* ============================= */
+[data-md-color-scheme="brand"] {
+  --md-primary-fg-color: #6e56cf;
+  --md-accent-fg-color: #00c2a8;
+  --md-code-bg-color: rgba(110, 86, 207, .08);
+}
+[data-md-color-scheme="brand"] .md-typeset .doc .doc-object {
+  border-color: rgba(110, 86, 207, .35);
+  box-shadow: 0 1px 0 rgba(110, 86, 207, .25);
+}
+
+/* ============================= */
+/* COMPACT color scheme          */
+/* ============================= */
+[data-md-color-scheme="compact"] .md-typeset {
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+[data-md-color-scheme="compact"] .md-typeset .doc .doc-object {
+  margin: .75rem 0 1rem;
+  padding: .75rem .9rem;
+}
+[data-md-color-scheme="compact"] .md-typeset .doc .table th,
+[data-md-color-scheme="compact"] .md-typeset .doc .table td {
+  padding: .35rem .5rem;
+}
+[data-md-color-scheme="compact"] .md-typeset .sig {
+  line-height: 1.35;
+}
+
+/* ============================= */
+/* COMFY color scheme            */
+/* ============================= */
+[data-md-color-scheme="comfy"] .md-typeset {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+[data-md-color-scheme="comfy"] .md-typeset .doc .doc-object {
+  margin: 1.2rem 0 1.5rem;
+  padding: 1.1rem 1.35rem;
+}
+[data-md-color-scheme="comfy"] .md-typeset .doc .table th,
+[data-md-color-scheme="comfy"] .md-typeset .doc .table td {
+  padding: .55rem .75rem;
+}
+[data-md-color-scheme="comfy"] .md-typeset .sig {
+  line-height: 1.55;
+}

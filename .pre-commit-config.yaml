@@ -1,0 +1,45 @@
+# Minimum version of pre-commit required
+minimum_pre_commit_version: "3.6.0"
+
+# Set the default Python version to be used by hooks
+default_language_version:
+  python: python3.12
+
+repos:
+  # Basic pre-commit hooks for common issues (whitespace, newlines, merge conflicts, YAML validity)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace     # Removes trailing whitespace
+      - id: end-of-file-fixer       # Ensures files end with a newline
+      - id: check-merge-conflict    # Detects merge conflict markers
+      - id: check-yaml              # Validates YAML syntax
+
+  # Black formatter for Python code
+  - repo: https://github.com/psf/black
+    rev: "25.1.0"
+    hooks:
+      - id: black                   # Automatically formats Python code
+
+  # Ruff linter and code analyzer
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.12.12"
+    hooks:
+      - id: ruff                    # Lints Python code using Ruff
+
+  # Mypy static type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.17.1"
+    hooks:
+      - id: mypy                    # Performs type checking with mypy
+
+  # Local hook for running tests with pytest
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest (quick)        # Runs fast tests (skips 'slow' tests)
+        entry: poetry run pytest -q --maxfail=1 -m "not slow"
+        language: system
+        types: [python]
+        pass_filenames: false       # Do not pass file names to pytest
+        stages: [pre-push]          # Run before pushing commits
