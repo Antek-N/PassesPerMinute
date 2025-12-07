@@ -123,8 +123,8 @@ class TestDrawPlots:
             called["pitch"] += 1
 
         # Replace original plotting functions with fake ones
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.player_position_stats.plot_bar_chart", fake_bar)
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.player_position_stats.plot_pitch_chart", fake_pitch)
+        monkeypatch.setattr("passes_per_minute.passes_counter.player_position_stats.plot_bar_chart", fake_bar)
+        monkeypatch.setattr("passes_per_minute.passes_counter.player_position_stats.plot_pitch_chart", fake_pitch)
 
         # Call with empty data – should return immediately
         draw_plots({})
@@ -145,8 +145,8 @@ class TestDrawPlots:
             calls["args"].append(("pitch", values, title))
 
         # Replace originals with test doubles
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.player_position_stats.plot_bar_chart", fake_bar)
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.player_position_stats.plot_pitch_chart", fake_pitch)
+        monkeypatch.setattr("passes_per_minute.passes_counter.player_position_stats.plot_bar_chart", fake_bar)
+        monkeypatch.setattr("passes_per_minute.passes_counter.player_position_stats.plot_pitch_chart", fake_pitch)
 
         # Input data with different averages
         positions = {
@@ -182,9 +182,9 @@ class TestDrawPlots:
             raise RuntimeError("render failed")
 
         # Replace functions in the module
-        monkeypatch.setattr("src.passes_per_minute.passes_counter.player_position_stats.plot_bar_chart", boom)
+        monkeypatch.setattr("passes_per_minute.passes_counter.player_position_stats.plot_bar_chart", boom)
         monkeypatch.setattr(
-            "src.passes_per_minute.passes_counter.player_position_stats.plot_pitch_chart", lambda *a, **k: None
+            "passes_per_minute.passes_counter.player_position_stats.plot_pitch_chart", lambda *a, **k: None
         )
 
         # Expecting the exception to propagate
