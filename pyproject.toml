@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PassesPerMinute"
-version = "1.0.0"
+version = "1.0.2"
 description = "Data analysis project that calculates and visualizes average passes per minute by position in professional football using StatsBomb Open Data."
 authors = ["Antek-N <antek.nikolajdu@gmail.com>"]
 license = "CC0-1.0"
